@@ -2,6 +2,7 @@
 #define JUEGO_H
 
 #include <QMainWindow>
+#include <QDebug>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -16,6 +17,9 @@ class Juego : public QMainWindow
 public:
     Juego(QWidget *parent = nullptr);
     ~Juego();
+
+private slots:
+    void escenaMenuJuego();
 
 private:
     Ui::Juego *ui;

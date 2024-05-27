@@ -10,10 +10,12 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
-    juego.cpp
+    juego.cpp \
+    menuinicial.cpp
 
 HEADERS += \
-    juego.h
+    juego.h \
+    menuinicial.h
 
 FORMS += \
     juego.ui
