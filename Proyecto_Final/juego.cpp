@@ -1,17 +1,20 @@
 #include "juego.h"
+#include "menujuego.h"
 #include "menuinicial.h"
 #include "ui_juego.h"
 
 Juego::Juego(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::Juego)
+    , menuInicial(new MenuInicial())
+    , menuJuego(new MenuJuego())
 {
-    MenuInicial *menuInicial = new MenuInicial();
 
     ui->setupUi(this);
     ui->graphicsView->setScene(menuInicial->getEscena());
 
-    connect(menuInicial, &MenuInicial::on_botonIngresar_clicked, this, &Juego::escenaMenuJuego);
+    connect(menuInicial, &MenuInicial::cambiarEscena, this, &Juego::escenaMenuJuego);
+    connect(menuJuego, &MenuJuego::cambiarEscena, this, &Juego::escenaMenuInicial);
 
 }
 
@@ -22,11 +25,10 @@ Juego::~Juego()
 
 void Juego::escenaMenuJuego()
 {
-    QGraphicsScene *escenaPrueba = new QGraphicsScene(this);
+    ui->graphicsView->setScene(menuJuego->getEscena());
+}
 
-    QLabel *tituloRandom = new QLabel("Escena menu");
-
-    escenaPrueba->addWidget(tituloRandom);
-
-    ui->graphicsView->setScene(escenaPrueba);
+void Juego::escenaMenuInicial()
+{
+    ui->graphicsView->setScene(menuInicial->getEscena());
 }

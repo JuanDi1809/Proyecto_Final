@@ -11,6 +11,7 @@
 #include <QPixmap>
 #include <QLineEdit>
 #include <fstream>
+#include "guardado.h"
 
 class MenuInicial : public QObject
 {
@@ -19,12 +20,13 @@ private:
     QGraphicsScene *escenaMenu;
     QLineEdit *usuario;
     QLineEdit *contraseña;
+    Guardado *datos;
 
 signals:
-    void on_botonIngresar_clicked();
+    void cambiarEscena();
 
 private slots:
-    void cambiarEscena();
+    void on_botonIngresar_clicked();
     void on_botonRegistarse_clicked();
 
 

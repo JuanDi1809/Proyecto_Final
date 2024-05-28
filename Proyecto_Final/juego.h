@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QDebug>
+#include "menujuego.h"
+#include "menuinicial.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -20,8 +22,12 @@ public:
 
 private slots:
     void escenaMenuJuego();
+    void escenaMenuInicial();
 
 private:
     Ui::Juego *ui;
+    MenuInicial *menuInicial;
+    MenuJuego *menuJuego;
+
 };
 #endif // JUEGO_H

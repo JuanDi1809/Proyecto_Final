@@ -1,8 +1,12 @@
 #include "menuinicial.h"
 #include "juego.h"
 #include <QString>
+#include <iostream>
 
-MenuInicial::MenuInicial() : QObject(), escenaMenu(new QGraphicsScene(this)) {
+using namespace std;
+
+
+MenuInicial::MenuInicial() : QObject(), escenaMenu(new QGraphicsScene(this)), datos(new Guardado()) {
     decorarEscena();
     configurarEscena();
 }
@@ -10,6 +14,7 @@ MenuInicial::MenuInicial() : QObject(), escenaMenu(new QGraphicsScene(this)) {
 MenuInicial::~MenuInicial()
 {
     delete escenaMenu;
+    delete datos;
 }
 
 QGraphicsScene *MenuInicial::getEscena()
@@ -155,16 +160,23 @@ void MenuInicial::decorarEscena()
 
 }
 
-void MenuInicial::cambiarEscena()
+void MenuInicial::on_botonIngresar_clicked()
 {
-    emit on_botonIngresar_clicked();
+    emit cambiarEscena();
 }
 
 void MenuInicial::on_botonRegistarse_clicked()
 {
-    QString textUsuario = usuario->text();
-    QString textContraseña = contraseña->text();
+    QString _textUsuario = usuario->text();
+    string textUsuario = _textUsuario.toStdString();
 
-    qDebug() << textUsuario << " " << textContraseña;
+    QString _textContraseña = contraseña->text();
+    string password = _textContraseña.toStdString();
+
+    qDebug() << datos->registro(textUsuario, password);
+
+    if(datos->registro(textUsuario, password)){
+        qDebug() << "El usuario ya existe";
+    }
 }
 
