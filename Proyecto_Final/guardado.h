@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <map>
-#include <QMessageBox>
 #include <string>
 
 using namespace std;
@@ -11,14 +10,13 @@ using namespace std;
 class Guardado
 {
 private:
-    QMessageBox msgBox;
     string usuarioActual;
     map<string, vector<string>> usuarios;
 
 public:
     Guardado();
-    bool registro(string usuario, string password);
-    bool ingreso(string usuario, string contraseña);
+    int registro(string usuario, string password);
+    int ingreso(string usuario, string password);
 
     void guardarDatos();
     void obtenerDatos();

@@ -11,7 +11,7 @@
 #include <QPixmap>
 #include <QLineEdit>
 
-class MenuJuego : public QObject
+class MenuJuego : public QWidget
 {
     Q_OBJECT
 private:
@@ -27,7 +27,7 @@ private slots:
 
 
 public:
-    MenuJuego();
+    MenuJuego(QWidget *parent = nullptr);
     ~MenuJuego();
 
     QGraphicsScene *getEscena();

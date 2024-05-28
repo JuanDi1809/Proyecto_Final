@@ -13,14 +13,13 @@
 #include <fstream>
 #include "guardado.h"
 
-class MenuInicial : public QObject
+class MenuInicial : public QWidget
 {
     Q_OBJECT
 private:
     QGraphicsScene *escenaMenu;
     QLineEdit *usuario;
     QLineEdit *contraseña;
-    Guardado *datos;
 
 signals:
     void cambiarEscena();
@@ -31,7 +30,10 @@ private slots:
 
 
 public:
-    MenuInicial();
+    //Instancio los datos
+    Guardado *datos = new Guardado();
+
+    MenuInicial(QWidget *parent=nullptr);
     ~MenuInicial();
 
     QGraphicsScene* getEscena();

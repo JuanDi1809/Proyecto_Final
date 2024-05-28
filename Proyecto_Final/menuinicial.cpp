@@ -2,11 +2,12 @@
 #include "juego.h"
 #include <QString>
 #include <iostream>
+#include <QMessageBox>
 
 using namespace std;
 
 
-MenuInicial::MenuInicial() : QObject(), escenaMenu(new QGraphicsScene(this)), datos(new Guardado()) {
+MenuInicial::MenuInicial(QWidget *parent) : QWidget(parent), escenaMenu(new QGraphicsScene(this)) {
     decorarEscena();
     configurarEscena();
 }
@@ -20,6 +21,7 @@ MenuInicial::~MenuInicial()
 QGraphicsScene *MenuInicial::getEscena()
 {
     return escenaMenu;
+    delete datos;
 }
 
 void MenuInicial::configurarEscena()
@@ -141,7 +143,7 @@ void MenuInicial::configurarEscena()
     proxy->setPos(x, y);
 
     // Conectar el botón de registro a la señal personalizada
-    connect(botonIngresar, &QPushButton::clicked, this, &MenuInicial::cambiarEscena);
+    connect(botonIngresar, &QPushButton::clicked, this, &MenuInicial::on_botonIngresar_clicked);
 
     //Conectar con el boton de registarse
     connect(botonRegistrarse, &QPushButton::clicked, this, &MenuInicial::on_botonRegistarse_clicked);
@@ -152,7 +154,7 @@ void MenuInicial::decorarEscena()
 {
 
     //Creando el fondo de la escena y ajustandolo a la escena
-    QPixmap fondoMenu("C:/Users/jtoro/OneDrive/Escritorio/Imagenes juego/BosqueTenebroso.jpg");
+    QPixmap fondoMenu("C:/Users/jtoro/OneDrive/Escritorio/Imagenes juego/fondoMenuJuego.jpg");
     QPixmap escalandoFondo = fondoMenu.scaled(800, 600, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
     //Cmabiando el fondo de la escena menu
@@ -162,7 +164,24 @@ void MenuInicial::decorarEscena()
 
 void MenuInicial::on_botonIngresar_clicked()
 {
-    emit cambiarEscena();
+    QString _textUsuario = usuario->text();
+    string textUsuario = _textUsuario.toStdString();
+
+    QString _textContraseña = contraseña->text();
+    string password = _textContraseña.toStdString();
+
+
+    switch(datos->ingreso(textUsuario, password)){
+    case 0:
+        QMessageBox::critical(this,"Error", QString("Faltan datos por ingresar."));
+        break;
+    case 1:
+        emit cambiarEscena();
+        break;
+    case 2:
+        QMessageBox::critical(this,"Error", QString("El usario no existe. Inenta con otro usuario."));
+        break;
+    }
 }
 
 void MenuInicial::on_botonRegistarse_clicked()
@@ -173,10 +192,18 @@ void MenuInicial::on_botonRegistarse_clicked()
     QString _textContraseña = contraseña->text();
     string password = _textContraseña.toStdString();
 
-    qDebug() << datos->registro(textUsuario, password);
+    switch(datos->registro(textUsuario, password)){
+    case 0:
+        QMessageBox::critical(this,"Error", QString("Faltan datos por ingresar."));
+        break;
+    case 1:
+        QMessageBox::critical(this,"Error", QString("El usario ya exsite. Inenta con otro usuario."));
+        break;
+    case 2:
+        QMessageBox::information(this,"Mensaje", QString("El usario ha sido agregado con exito"));
+        break;
 
-    if(datos->registro(textUsuario, password)){
-        qDebug() << "El usuario ya existe";
     }
+
 }
 

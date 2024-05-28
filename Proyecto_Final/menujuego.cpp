@@ -1,6 +1,6 @@
 #include "menujuego.h"
 
-MenuJuego::MenuJuego() : QObject(), escenaMenuJuego(new QGraphicsScene(this)) {
+MenuJuego::MenuJuego(QWidget *parent) : QWidget(parent), escenaMenuJuego(new QGraphicsScene(this)) {
     decorarEscena();
     configurarEscena();
 }
@@ -18,7 +18,7 @@ QGraphicsScene *MenuJuego::getEscena()
 void MenuJuego::decorarEscena()
 {
     //Creando el fondo de la escena y ajustandolo a la escena
-    QPixmap fondoMenuJuego("C:/Users/jtoro/OneDrive/Escritorio/Imagenes juego/BosqueTenebroso.jpg");
+    QPixmap fondoMenuJuego("C:/Users/jtoro/OneDrive/Escritorio/Imagenes juego/fondoMenuJuego.jpg");
     QPixmap escalandoFondo = fondoMenuJuego.scaled(800, 600, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
     //Cmabiando el fondo de la escena menu
@@ -99,7 +99,7 @@ void MenuJuego::configurarEscena(){
     // Establecer la posición del widget en la escena
     proxy->setPos(x, y);
 
-    // Conectar el botón d
+    // Conectar el botón de volver
     connect(botonVolver, &QPushButton::clicked, this, &MenuJuego::on_botonVolver_clicked);
 }
 

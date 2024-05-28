@@ -7,8 +7,7 @@
 using namespace std;
 
 Guardado::Guardado() {
-    string rutaArchivo = "C:\\Users\\jtoro\\OneDrive\\Imágenes\\Documentos\\Proyecto\\Proyecto_Final\\Partidas\\Usuarios";
-
+    string rutaArchivo = "C:/Users/jtoro/Downloads/Usuarios.txt";
     ifstream archivo(rutaArchivo);
 
     if(archivo.is_open()){
@@ -22,7 +21,7 @@ Guardado::Guardado() {
 
             //Extraer contraseña y gurdarlo
             pos = linea.find(',');
-            usuarios[usuario].push_back(linea.substr(0,pos));
+            usuarios.insert({usuario,{linea.substr(0,pos)}});
             linea = linea.erase(0, pos+1);
 
             //Extraer nivel y guardarlo
@@ -43,13 +42,51 @@ Guardado::Guardado() {
         }
     }
 
+    archivo.close();
+
 
 }
 
-bool Guardado::registro(string usuario, string password)
+int Guardado::registro(string usuario, string password)
 {
+    if(usuario == "" || password == ""){
+        return 0;
+    }
+
     for (auto &iterador : usuarios){
         if (iterador.first == usuario)
-            return true;
+            return 1;
     }
+
+    usuarios.insert({usuario, {password,"100","1","0"}});
+
+    string rutaArchivo = "C:/Users/jtoro/Downloads/Usuarios.txt";
+    ofstream archivo(rutaArchivo, ios::out | ios::app);
+
+    if(archivo.is_open()){
+        archivo << usuario << ":" << password << ","<< "100," << "1," << "0\n";
+        return 2;
+    }
+
+    archivo.close();
+
+}
+
+int Guardado::ingreso(string usuario, string password)
+{
+    if(usuario == "" || password == ""){
+        return 0;
+    }
+
+    for (auto &iterador : usuarios){
+        qDebug() << iterador.first;
+        if (iterador.first == usuario && iterador.second[0] == password){
+            usuarioActual = usuario;
+            return 1;
+        }
+
+    }
+
+    return 2;
+
 }
