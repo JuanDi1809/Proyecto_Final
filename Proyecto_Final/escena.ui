@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Juego</class>
- <widget class="QMainWindow" name="Juego">
+ <class>escena</class>
+ <widget class="QMainWindow" name="escena">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,16 +11,16 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Juego</string>
+   <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QGraphicsView" name="graphicsView">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>40</y>
-      <width>551</width>
-      <height>411</height>
+      <x>140</x>
+      <y>70</y>
+      <width>531</width>
+      <height>391</height>
      </rect>
     </property>
    </widget>

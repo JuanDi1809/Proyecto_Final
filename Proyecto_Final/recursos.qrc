@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/Imagenes">
+        <file>videoJuego/abajo.png</file>
+        <file>videoJuego/arr.png</file>
+        <file>videoJuego/ataque.png</file>
+        <file>videoJuego/back.png</file>
+        <file>videoJuego/der.png</file>
+        <file>videoJuego/enemigo.png</file>
+        <file>videoJuego/izq.png</file>
+        <file>videoJuego/muerte.png</file>
+        <file>videoJuego/plaga.png</file>
+        <file>videoJuego/proy.png</file>
+        <file>videoJuego/proy_abj.png</file>
+        <file>videoJuego/proy_arr.png</file>
+        <file>videoJuego/proy_der.png</file>
+    </qresource>
+</RCC>

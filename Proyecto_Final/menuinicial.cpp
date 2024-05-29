@@ -1,5 +1,5 @@
 #include "menuinicial.h"
-#include "juego.h"
+#include "xd.h"
 #include <QString>
 #include <iostream>
 #include <QMessageBox>
