@@ -1,11 +1,12 @@
-#include "escena.h"
-
+#include "menuinicio.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    escena w;
+    MenuInicio w;
     w.show();
+
+
     return a.exec();
 }

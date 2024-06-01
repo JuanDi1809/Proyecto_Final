@@ -13,5 +13,6 @@
         <file>videoJuego/proy_abj.png</file>
         <file>videoJuego/proy_arr.png</file>
         <file>videoJuego/proy_der.png</file>
+        <file>videoJuego/FondoInicial.jpg</file>
     </qresource>
 </RCC>
