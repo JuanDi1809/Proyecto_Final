@@ -14,5 +14,9 @@
         <file>videoJuego/proy_arr.png</file>
         <file>videoJuego/proy_der.png</file>
         <file>videoJuego/FondoInicial.jpg</file>
+        <file>videoJuego/back2.png</file>
+        <file>videoJuego/back3.png</file>
+        <file>videoJuego/enemigo2.png</file>
+        <file>videoJuego/enemigo3.png</file>
     </qresource>
 </RCC>

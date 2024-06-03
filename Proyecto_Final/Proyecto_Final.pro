@@ -16,7 +16,8 @@ SOURCES += \
     menujuego.cpp \
     personaje.cpp \
     proyectil.cpp \
-    puntuacion.cpp
+    puntuacion.cpp \
+    seleccionarma.cpp
 
 HEADERS += \
     enemigo.h \
@@ -25,12 +26,14 @@ HEADERS += \
     menujuego.h \
     personaje.h \
     proyectil.h \
-    puntuacion.h
+    puntuacion.h \
+    seleccionarma.h
 
 FORMS += \
     juego.ui \
     menuinicio.ui \
-    menujuego.ui
+    menujuego.ui \
+    seleccionarma.ui
 
 
 # Default rules for deployment.

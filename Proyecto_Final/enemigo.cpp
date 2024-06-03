@@ -12,16 +12,15 @@ Enemigo::Enemigo(int nivel, Personaje *objetivo) : QGraphicsPixmapItem(), objeti
     int aleatY = QRandomGenerator::global()->bounded(600 + 200);
     setPos(aleatX, aleatY);
 
-    generico.load(":/Imagenes/videoJuego/enemigo.png");
-    QPixmap scaled_generico = generico.scaled(70, 70);
-    setPixmap(scaled_generico);
-
     //establecer dificultad de enemigo
-    if(nivel == 1){
-        nivelActual = 1;
-    }else if(nivel == 2){
-        nivelActual = 2;
-    }
+    cuentaImpact = 1;
+    if(nivel == 1) nivelActual = 1;
+    if(nivel == 2) nivelActual = 2;
+    if(nivel == 3) nivelActual = 3;
+
+    //para las texturas
+    setTexturas(nivelActual);
+
     //para el manejo de impactos
 
     //uso de slots para el movimiento del enemigo
@@ -54,11 +53,29 @@ void Enemigo::moverEnemigo(){
 }
 
 void Enemigo::recibirImpacto(){
-    cuentaImpact++;
     if(cuentaImpact == nivelActual){
+        cuentaImpact = 1;
         emit eliminado(); //es una señal que va junto con la señal de cambio puntuacion
         scene()->removeItem(this);
         delete this;
+    }else{
+        cuentaImpact++;
     }
-
 }
+
+void Enemigo::setTexturas(int nivel){
+    if(nivel == 1){
+        generico.load(":/Imagenes/videoJuego/enemigo.png");
+        QPixmap scaled_generico = generico.scaled(70, 70);
+        setPixmap(scaled_generico);
+    }else if(nivel == 2){
+        generico.load(":/Imagenes/videoJuego/enemigo2.png");
+        QPixmap scaled_enemigo = generico.scaled(70, 70);
+        setPixmap(scaled_enemigo);
+    }else if(nivel == 3){
+        generico.load(":/Imagenes/videoJuego/enemigo3.png");
+        QPixmap scaled_enemigo = generico.scaled(70, 70);
+        setPixmap(scaled_enemigo);
+    }
+}
+

@@ -11,6 +11,9 @@ class Enemigo : public QObject, public QGraphicsPixmapItem{
 public:
     Enemigo(int nivel, Personaje *objetivo); //se le pasa el objetivo a seguir
     void recibirImpacto();
+
+    //para las texturas de los enemigos
+    void setTexturas(int nivelActual);
 signals:
     void eliminado();
 private slots:
@@ -21,6 +24,8 @@ private:
     Personaje *objetivo;
     QTimer *tiempo;
     QPixmap generico;
+    QPixmap enemigo2;
+
 
     //nivel enemigo
     int cuentaImpact;

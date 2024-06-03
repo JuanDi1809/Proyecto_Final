@@ -21,6 +21,10 @@ public:
     int getPuntacion() const;
     void aumentarPuntuacion(int cantidad);
 
+    //cambio de vida al pasar de nivel
+    void setVida();
+
+
 public slots:
     void manejoColision();
 

@@ -89,12 +89,24 @@ Juego::Juego(QWidget *parent)
         Enemigo *enemigo = new Enemigo(personaje);
         escena->addItem(enemigo);
     }*/
-    tiempo = new QTimer(this);
-    connect(tiempo, &QTimer::timeout, this, &Juego::crearEnemigo);
-    tiempo->start(600); //cambiando este dato podemos definir dificultad
+
+    //layout ajustado a mainwindow
+    QVBoxLayout *layout = new QVBoxLayout();
+    QWidget *container = new QWidget();
+    container->setLayout(layout);
+
+    //establecer niveles
+    //nivel inicial
+    enemigoTiempo = new QTimer(this);
+    connect(enemigoTiempo, &QTimer::timeout, this, &Juego::crearEnemigo);
 
     connect(personaje, &Personaje::muerte, this, &Juego::mostrarImagenMuerte);
+    actualizarNivel(1000);
 
+    //seleccion de arma
+    //el evento que muestra los nuevos niveles es cuando se presiona el boton
+    seleccionarma = new SeleccionArma();
+    connect(seleccionarma, &SeleccionArma::iniciarNivel, this, &Juego::iniciarNivel);
 }
 
 Juego::~Juego()
@@ -120,7 +132,25 @@ void Juego::verificarPuntuacion(){
         QTimer::singleShot(3000, [this](){
             mensajeNivel->setVisible(false);
         });
+
+        //ventana para la seleccion de arma
+        mostrarSeleccionArma();
+
     }
+}
+
+void Juego::setBack(int nivel){
+    if(nivel == 1){
+        escena->setSceneRect(0,0, 1600, 900);
+        escena->setBackgroundBrush(QBrush(QImage(":/Imagenes/videoJuego/back.png")));
+    }else if(nivel == 2){
+        escena->setSceneRect(0,0, 1600, 900);
+        escena->setBackgroundBrush(QBrush(QImage(":/Imagenes/videoJuego/back2.png")));
+    }else if(nivel == 3){
+        escena->setSceneRect(0,0, 1600, 900);
+        escena->setBackgroundBrush(QBrush(QImage(":/Imagenes/videoJuego/back3.png")));
+    }
+
 }
 
 void Juego::actualizarPuntuacion(int nuevaPts){
@@ -135,9 +165,54 @@ void Juego::actualizarVida(int nuevaVida){
 
 void Juego::mostrarImagenMuerte(){
     muerte->setVisible(true);
-    tiempo->stop();
+    enemigoTiempo->stop();
     setFocusPolicy(Qt::NoFocus);
     //aqui irá el retorno al menu del juego
+}
+
+void Juego::mostrarSeleccionArma(){
+    //con esto detenemos la generacion de enemigos
+    enemigoTiempo->stop();
+    limpiarNivel();
+
+    //para actualizar la vida y mostrar la nueva
+    personaje->setVida();
+    personaje->setPos(width() / 2, height() / 2); //posicion en el centro
+    vidaTexto->setPlainText(QString("Vida:%1 | ").arg(personaje->getVida()));
+
+    //mostramos ventana
+    seleccionarma->show();
+
+}
+
+void Juego::iniciarNivel(){
+    if(nivelActual == 2){
+        seleccionarma->hide();
+        actualizarNivel(600);
+        setBack(nivelActual);
+    }else if(nivelActual == 3){
+        seleccionarma->hide();
+        actualizarNivel(400);
+        setBack(nivelActual);
+    }
+}
+
+void Juego::actualizarNivel(int time){
+    // se define el tiempo del enemigo
+    enemigoTiempo->stop();
+    limpiarNivel();
+    //cambio de images y otros metodos....
+    enemigoTiempo->start(time); //cambiando este dato podemos definir dificultad
+}
+
+void Juego::limpiarNivel(){
+    for (auto item : escena->items()) {
+        Enemigo *enemigo = dynamic_cast<Enemigo*>(item);
+        if (enemigo) {
+            escena->removeItem(enemigo);
+            delete enemigo;
+        }
+    }
 }
 
 void Juego::crearEnemigo(){

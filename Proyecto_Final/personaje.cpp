@@ -49,6 +49,7 @@ void Personaje::manejoColision(){
     }
 
 }
+
 int Personaje::getVida() const{
     return vida;
 }
@@ -61,6 +62,9 @@ void Personaje::aumentarPuntuacion(int cantidad){
     emit cambioPuntuacion(puntuacion);
 }
 
+void Personaje::setVida(){
+    vida *= 2;
+}
 
 void Personaje::keyPressEvent(QKeyEvent *event)
 {
