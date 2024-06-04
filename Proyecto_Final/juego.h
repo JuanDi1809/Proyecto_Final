@@ -4,6 +4,7 @@
 #include "personaje.h"
 #include "enemigo.h"
 #include "seleccionarma.h"
+#include "menupausa.h"
 #include <QVBoxLayout>
 #include <QWidget>
 #include <QVector2D>
@@ -17,6 +18,11 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QObject>
+#include <vector>
+#include <string>
+
+using namespace std;
+
 
 namespace Ui {
 class Juego;
@@ -37,6 +43,7 @@ public:
 
     //background
     void setBack(int nivel);
+    void cargarEstado(); //Permtira cargar el juego con el nivel de juego, la vida y la puntuacion en donde quedo el usuario
 private slots:
     void crearEnemigo();
     void actualizarVida(int nuevaVida);
@@ -46,6 +53,8 @@ private slots:
     //subida de nivel (cambio de escena
     void mostrarSeleccionArma();
     void iniciarNivel();
+
+    void on_botonAjustes_clicked();
 
 private:
     Ui::Juego *ui;

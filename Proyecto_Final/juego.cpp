@@ -1,15 +1,24 @@
 #include "juego.h"
 #include "ui_juego.h"
 
+extern QString usu, pass;
+extern vector<string> datos;
+
 Juego::Juego(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Juego)
-    , puntuacionObjetivo(50)
+    , puntuacionObjetivo(100)
 {
     ui->setupUi(this);
 
+    //Añadiendo imagen de ajuste
+    QIcon IconoBotonAjuste(":/Imagenes/videoJuego/IconoAjustes.png");
+    ui->botonAjustes->setIcon(IconoBotonAjuste);
+    ui->botonAjustes->setIconSize(QSize(35,35)); // Ajusta el tamaño del icono según sea necesario
+
+
     escena = new QGraphicsScene();
-    escena->setSceneRect(0,0, 800, 900);
+    escena->setSceneRect(0,0, 1600, 900);
     escena->setBackgroundBrush(QBrush(QImage(":/Imagenes/videoJuego/back.png")));
 
     ui->graphicsView->setScene(escena);
@@ -27,35 +36,22 @@ Juego::Juego(QWidget *parent)
     muerte->setVisible(false);
     escena->addItem(muerte);
 
-    //creacion de elementos en escena:
-    personaje = new Personaje();
-    //personaje->setPixmap(normal);
-    personaje->setPos(width() / 2, height() / 2); //posicion en el centro
-
-
-    //establecer valores para aumentar dificultad
-    establecerNivel(1);
-    //añadir nuevo poder en el nivel 3...
-
     //creacion textos
     vidaTexto = new QGraphicsTextItem();
     nivelJuego = new QGraphicsTextItem();
+    ptsJugador = new QGraphicsTextItem();
 
     //nivel
-    nivelJuego->setPlainText(QString("Nivel: %1").arg(nivelActual));
     nivelJuego->setDefaultTextColor(Qt::white);
     nivelJuego->setFont(QFont("times", 24));
     nivelJuego->setPos(742, 60);
 
     //vida
-    vidaTexto->setPlainText(QString("Vida:%1 | ").arg(personaje->getVida()));
     vidaTexto->setDefaultTextColor(Qt::white);
     vidaTexto->setFont(QFont("times", 15, 1, true));
     vidaTexto->setPos(70, 55);
 
     //puntuacion
-    ptsJugador = new QGraphicsTextItem();
-    ptsJugador->setPlainText(QString("Eliminados: %1").arg(personaje->getPuntacion()));
     ptsJugador->setDefaultTextColor(Qt::white);
     ptsJugador->setFont(QFont("times", 15, 1, true));
     ptsJugador->setPos(160, 55);
@@ -72,28 +68,20 @@ Juego::Juego(QWidget *parent)
     escena->addItem(nivelJuego);
     escena->addItem(vidaTexto);
 
-    //slots para cambio de vida
-    //hacemos la conexion entre la señal vidaCambiada y actualizarVida
-    connect(personaje, &Personaje::vidaCambiada, this, &Juego::actualizarVida);
-    connect(personaje, &Personaje::cambioPuntuacion, this, &Juego::actualizarPuntuacion);
-
-
+    //Personaje
+    personaje = new Personaje();
+    //personaje->setPixmap(normal);
+    personaje->setPos(width() / 2, height() / 2); //posicion en el centro
     //player focusable
     personaje->setFlag(QGraphicsItem::ItemIsFocusable);
     personaje->setFocus();
     //añadimos al jugador en la escena
     escena->addItem(personaje);
 
-    //añadir enemigos
-    /*for(int i = 0; i < 10; i++){
-        Enemigo *enemigo = new Enemigo(personaje);
-        escena->addItem(enemigo);
-    }*/
-
-    //layout ajustado a mainwindow
-    QVBoxLayout *layout = new QVBoxLayout();
-    QWidget *container = new QWidget();
-    container->setLayout(layout);
+    //slots para cambio de vida
+    //hacemos la conexion entre la señal vidaCambiada y actualizarVida
+    connect(personaje, &Personaje::vidaCambiada, this, &Juego::actualizarVida);
+    connect(personaje, &Personaje::cambioPuntuacion, this, &Juego::actualizarPuntuacion);
 
     //establecer niveles
     //nivel inicial
@@ -107,6 +95,9 @@ Juego::Juego(QWidget *parent)
     //el evento que muestra los nuevos niveles es cuando se presiona el boton
     seleccionarma = new SeleccionArma();
     connect(seleccionarma, &SeleccionArma::iniciarNivel, this, &Juego::iniciarNivel);
+
+    cargarEstado();
+
 }
 
 Juego::~Juego()
@@ -153,8 +144,39 @@ void Juego::setBack(int nivel){
 
 }
 
+void Juego::cargarEstado()
+{
+    if(datos[2] == "0" && datos[3] == "100" && datos[4] == "1"){
+        QString puntuacion = QString::fromUtf8(datos[2]);
+        QString vida = QString::fromUtf8(datos[3]);
+
+
+        //Realizo las respectivas modificaciones para la inicializacion de la partida
+        ptsJugador->setPlainText(QString("Puntaje: %1").arg(puntuacion));
+        vidaTexto->setPlainText(QString("Vida:%1 | ").arg(vida));
+        establecerNivel(stoi(datos[4]));
+        nivelJuego->setPlainText(QString("Nivel: %1").arg(nivelActual));
+        setBack(stoi(datos[4]));
+        personaje->setVida(vida.toInt());
+        personaje->setPuntuacion(puntuacion.toInt());
+    }
+    else{
+        QString puntuacion = QString::fromUtf8(datos[2]);
+        QString vida = QString::fromUtf8(datos[3]);
+
+        //Realizo las respectivas modificaciones para la inicializacion de la partida
+        ptsJugador->setPlainText(QString("Puntaje: %1").arg(puntuacion));
+        vidaTexto->setPlainText(QString("Vida:%1 | ").arg(vida));
+        establecerNivel(stoi(datos[4]));
+        nivelJuego->setPlainText(QString("Nivel: %1").arg(nivelActual));
+        setBack(stoi(datos[4]));
+        personaje->setVida(vida.toInt());
+        personaje->setPuntuacion(puntuacion.toInt());
+    }
+}
+
 void Juego::actualizarPuntuacion(int nuevaPts){
-    ptsJugador->setPlainText(QString("Eliminados: %1").arg(nuevaPts));
+    ptsJugador->setPlainText(QString("Puntaje: %1").arg(nuevaPts));
     verificarPuntuacion();
 }
 
@@ -201,7 +223,7 @@ void Juego::actualizarNivel(int time){
     // se define el tiempo del enemigo
     enemigoTiempo->stop();
     limpiarNivel();
-    //cambio de images y otros metodos....
+    //cambio de imagenes y otros metodos....
     enemigoTiempo->start(time); //cambiando este dato podemos definir dificultad
 }
 
@@ -225,3 +247,10 @@ void Juego::crearEnemigo(){
     enemigo->setPos(randomX, randomY);
     escena->addItem(enemigo);
 }
+
+void Juego::on_botonAjustes_clicked()
+{
+    MenuPausa *pausa = new MenuPausa;
+    pausa->show();
+}
+

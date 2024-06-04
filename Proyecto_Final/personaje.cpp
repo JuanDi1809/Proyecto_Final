@@ -66,6 +66,16 @@ void Personaje::setVida(){
     vida *= 2;
 }
 
+void Personaje::setVida(int _vida)
+{
+    vida = _vida;
+}
+
+void Personaje::setPuntuacion(int _puntuacion)
+{
+    puntuacion = _puntuacion;
+}
+
 void Personaje::keyPressEvent(QKeyEvent *event)
 {
     //para la deteccion de la direccion a la que apunta personaje
@@ -98,7 +108,6 @@ void Personaje::keyPressEvent(QKeyEvent *event)
         disparar();
     }
     teclas.insert(event->key());
-    //qDebug() << "Haz presionado una tecla";
 }
 void Personaje::keyReleaseEvent(QKeyEvent *event){
 

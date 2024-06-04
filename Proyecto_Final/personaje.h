@@ -23,6 +23,8 @@ public:
 
     //cambio de vida al pasar de nivel
     void setVida();
+    void setVida(int);
+    void setPuntuacion(int);
 
 
 public slots:

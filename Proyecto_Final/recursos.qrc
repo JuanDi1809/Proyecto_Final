@@ -4,8 +4,16 @@
         <file>videoJuego/arr.png</file>
         <file>videoJuego/ataque.png</file>
         <file>videoJuego/back.png</file>
+        <file>videoJuego/back2.png</file>
+        <file>videoJuego/back3.png</file>
+        <file>videoJuego/IconoAjustes.png</file>
         <file>videoJuego/der.png</file>
         <file>videoJuego/enemigo.png</file>
+        <file>videoJuego/enemigo2.png</file>
+        <file>videoJuego/enemigo3.png</file>
+        <file>videoJuego/enemiog_3.png</file>
+        <file>videoJuego/FondoInicial.jpg</file>
+        <file>videoJuego/FondoPausa.jpg</file>
         <file>videoJuego/izq.png</file>
         <file>videoJuego/muerte.png</file>
         <file>videoJuego/plaga.png</file>
@@ -13,10 +21,5 @@
         <file>videoJuego/proy_abj.png</file>
         <file>videoJuego/proy_arr.png</file>
         <file>videoJuego/proy_der.png</file>
-        <file>videoJuego/FondoInicial.jpg</file>
-        <file>videoJuego/back2.png</file>
-        <file>videoJuego/back3.png</file>
-        <file>videoJuego/enemigo2.png</file>
-        <file>videoJuego/enemigo3.png</file>
     </qresource>
 </RCC>

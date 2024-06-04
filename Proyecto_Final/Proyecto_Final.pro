@@ -14,6 +14,7 @@ SOURCES += \
     main.cpp \
     menuinicio.cpp \
     menujuego.cpp \
+    menupausa.cpp \
     personaje.cpp \
     proyectil.cpp \
     puntuacion.cpp \
@@ -24,6 +25,7 @@ HEADERS += \
     juego.h \
     menuinicio.h \
     menujuego.h \
+    menupausa.h \
     personaje.h \
     proyectil.h \
     puntuacion.h \
@@ -33,6 +35,7 @@ FORMS += \
     juego.ui \
     menuinicio.ui \
     menujuego.ui \
+    menupausa.ui \
     seleccionarma.ui
 
 

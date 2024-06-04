@@ -30,9 +30,10 @@ public:
     ~MenuJuego();
 
     QLabel *w;
+    string ruta = "C:/Users/jtoro/Downloads/";
 
 private slots:
-    //void on_botonCargarPartida_clicked();
+    void on_botonCargarPartida_clicked();
     void on_botonVolver_clicked();
     void on_botonNuevPartida_clicked();
 

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MenuPausa</class>
+ <widget class="QWidget" name="MenuPausa">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>523</width>
+    <height>441</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>100</y>
+     <width>171</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QPushButton" name="botonReanudar">
+      <property name="text">
+       <string>REANUDAR</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="botonControles">
+      <property name="text">
+       <string>CONTROLES</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="botonCerrarSesion">
+      <property name="text">
+       <string>CERRAR SESION</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="botonSalirJuego">
+      <property name="text">
+       <string>SALIR DEL JUEGO</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

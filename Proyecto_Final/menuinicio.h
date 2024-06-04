@@ -2,7 +2,6 @@
 #define MENUINICIO_H
 
 #include <vector>
-#include <QObject>
 #include <QWidget>
 #include <QLabel>
 #include <QMessageBox>
@@ -32,9 +31,11 @@ public:
 private slots:
     void on_botonIngresar_clicked();
     void on_botonRegistrar_clicked();
+    void on_botonMostar_clicked();
 
 private:
     Ui::MenuInicio *ui;
+    bool validPassword = true;
 };
 
 #include "menujuego.h"

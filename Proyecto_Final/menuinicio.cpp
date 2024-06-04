@@ -52,9 +52,6 @@ void MenuInicio::on_botonIngresar_clicked()
         msgBox.setText("Contraseña o usuario incorrecto.");
         msgBox.exec();
 
-        ui->Usuario->clear();
-        ui->Password->clear();
-
         return; //Evita que siga con el ciclo de ejecucion
     }
     else{
@@ -77,9 +74,6 @@ void MenuInicio::on_botonIngresar_clicked()
             msgBox.setText("Contraseña o usuario incorrecto.");
             msgBox.exec(); //Bloque la ejecucion hasta que el usuario interactue con el
 
-            ui->Usuario->clear();
-            ui->Password->clear();
-
             return;
         }
     }
@@ -97,9 +91,6 @@ void MenuInicio::on_botonRegistrar_clicked()
         msgBox.setText("Faltan datos por ingresar");
         msgBox.exec();
 
-        ui->Usuario->clear();
-        ui->Password->clear();
-
         return;
     }
     else{
@@ -110,15 +101,13 @@ void MenuInicio::on_botonRegistrar_clicked()
              msgBox.setText("Este usuario ya existe.");
              msgBox.exec();
 
-             ui->Usuario->clear();
-             ui->Password->clear();
              return;
          }
         else{
-            ofstream file(ruta + usu.toStdString() + ".txt");
+            ofstream archivo(ruta + usu.toStdString() + ".txt");
             //Se guardan el nombre de usuario y la contraseña
-            file << usu.toStdString()<<"\n" << pass.toStdString();
-            file.close();
+            archivo << usu.toStdString()<<"\n" << pass.toStdString() << "\@n";
+            archivo.close();
 
             //Ventana emergente que notifica que el registro fue exitoso
             QMessageBox msgBox;
@@ -131,3 +120,16 @@ void MenuInicio::on_botonRegistrar_clicked()
     }
 
 }
+
+void MenuInicio::on_botonMostar_clicked()
+{
+    if(validPassword){
+        ui->Password->setEchoMode(QLineEdit::Normal);
+        validPassword = false;
+    }
+    else{
+        ui->Password->setEchoMode((QLineEdit::Password));
+        validPassword = true;
+    }
+}
+
