@@ -3,6 +3,11 @@
 
 extern QString usu, pass;
 extern vector<string> datos;
+/*
+La variable nivelActual es declarada como global para saber como parar y reanudar los timers en los cambios de
+nivel y las pausas en el menu del juego
+*/
+int nivelActual;
 
 Juego::Juego(QWidget *parent)
     : QWidget(parent)
@@ -11,16 +16,21 @@ Juego::Juego(QWidget *parent)
 {
     ui->setupUi(this);
 
-    //Añadiendo imagen de ajuste
-    QIcon IconoBotonAjuste(":/Imagenes/videoJuego/IconoAjustes.png");
-    ui->botonAjustes->setIcon(IconoBotonAjuste);
-    ui->botonAjustes->setIconSize(QSize(35,35)); // Ajusta el tamaño del icono según sea necesario
-
-
     escena = new QGraphicsScene();
     escena->setSceneRect(0,0, 1600, 900);
     escena->setBackgroundBrush(QBrush(QImage(":/Imagenes/videoJuego/back.png")));
 
+    //Configuarndo y añadiendo el widget de ajustes
+    QPushButton *botonAjustes = new QPushButton();
+    QIcon IconoBotonAjuste(":/Imagenes/videoJuego/IconoAjustes.png");
+    botonAjustes->setIcon(IconoBotonAjuste);
+    botonAjustes->setIconSize(QSize(35,35)); // Ajusta el tamaño del icono según sea necesario
+    QGraphicsProxyWidget *proxy = escena->addWidget(botonAjustes);
+    proxy->setPos(1500,0);
+
+    connect(botonAjustes, &QPushButton::clicked, this, &Juego::on_botonAjustes_clicked);
+
+    //Configurando la escena
     ui->graphicsView->setScene(escena);
     ui->graphicsView->setFixedSize(1600, 900);
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -89,12 +99,14 @@ Juego::Juego(QWidget *parent)
     connect(enemigoTiempo, &QTimer::timeout, this, &Juego::crearEnemigo);
 
     connect(personaje, &Personaje::muerte, this, &Juego::mostrarImagenMuerte);
-    actualizarNivel(1000);
 
     //seleccion de arma
     //el evento que muestra los nuevos niveles es cuando se presiona el boton
     seleccionarma = new SeleccionArma();
     connect(seleccionarma, &SeleccionArma::iniciarNivel, this, &Juego::iniciarNivel);
+
+    //Coneect para reanudar los timers
+    connect(pausa, &MenuPausa::reanudar, this, &Juego::reanudarTimers);
 
     cargarEstado();
 
@@ -159,8 +171,16 @@ void Juego::cargarEstado()
         setBack(stoi(datos[4]));
         personaje->setVida(vida.toInt());
         personaje->setPuntuacion(puntuacion.toInt());
+        actualizarNivel(800);
     }
     else{
+        if(nivelActual == 2){
+            actualizarNivel(600);
+        }
+        else{
+            actualizarNivel(400);
+        }
+
         QString puntuacion = QString::fromUtf8(datos[2]);
         QString vida = QString::fromUtf8(datos[3]);
 
@@ -172,6 +192,28 @@ void Juego::cargarEstado()
         setBack(stoi(datos[4]));
         personaje->setVida(vida.toInt());
         personaje->setPuntuacion(puntuacion.toInt());
+    }
+}
+
+void Juego::pararTimers()
+{
+    personaje->getTimer()->stop(); //Paro el timer del personaje principal
+    enemigoTiempo->stop(); //Para el timer de la creacion de enemigos
+
+    //Para el timer para cada enemigo en la escena
+    for (auto item : escena->items()){
+        Enemigo *enemigo = dynamic_cast<Enemigo*>(item);
+        if(enemigo){
+            enemigo->getTimer()->stop();
+        }
+    }
+
+    //Para timer para los proyectiles en la escena
+    for (auto item : escena->items()){
+        Proyectil *proyectil = dynamic_cast<Proyectil*>(item);
+        if(proyectil){
+            proyectil->getTimer()->stop();
+        }
     }
 }
 
@@ -194,7 +236,7 @@ void Juego::mostrarImagenMuerte(){
 
 void Juego::mostrarSeleccionArma(){
     //con esto detenemos la generacion de enemigos
-    enemigoTiempo->stop();
+    pararTimers();
     limpiarNivel();
 
     //para actualizar la vida y mostrar la nueva
@@ -220,11 +262,14 @@ void Juego::iniciarNivel(){
 }
 
 void Juego::actualizarNivel(int time){
-    // se define el tiempo del enemigo
-    enemigoTiempo->stop();
-    limpiarNivel();
-    //cambio de imagenes y otros metodos....
-    enemigoTiempo->start(time); //cambiando este dato podemos definir dificultad
+
+    if(nivelActual == 1){
+        enemigoTiempo->start(time);
+    }
+    else{
+        //cambio de imagenes y otros metodos....
+        reanudarTimers(time);
+    }
 }
 
 void Juego::limpiarNivel(){
@@ -233,6 +278,13 @@ void Juego::limpiarNivel(){
         if (enemigo) {
             escena->removeItem(enemigo);
             delete enemigo;
+        }
+    }
+
+    for (auto item : escena->items()){
+        Proyectil *proyectil = dynamic_cast<Proyectil*>(item);
+        if(proyectil){
+            escena->removeItem(proyectil);
         }
     }
 }
@@ -250,7 +302,29 @@ void Juego::crearEnemigo(){
 
 void Juego::on_botonAjustes_clicked()
 {
-    MenuPausa *pausa = new MenuPausa;
+    pararTimers();
     pausa->show();
+}
+
+
+void Juego::reanudarTimers(int time){
+    personaje->getTimer()->start(); //Reaunda el timer del personaje principal
+    enemigoTiempo->start(time); //Reanuda el timer de la creacion de enemigos
+
+    //Reaunda el timer de los enemigos en la escena
+    for (auto item : escena->items()){
+        Enemigo *enemigo = dynamic_cast<Enemigo*>(item);
+        if(enemigo){
+            enemigo->getTimer()->start();
+        }
+    }
+
+    //Reanuda el timer de los proyectiles en la escena
+    for (auto item : escena->items()){
+        Proyectil *proyectil = dynamic_cast<Proyectil*>(item);
+        if(proyectil){
+            proyectil->getTimer()->start();
+        }
+    }
 }
 

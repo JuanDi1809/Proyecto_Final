@@ -14,6 +14,11 @@ public:
 
     //para las texturas de los enemigos
     void setTexturas(int nivelActual);
+
+    //Getter par el timer del enemigo
+    QTimer* getTimer();
+
+
 signals:
     void eliminado();
 private slots:

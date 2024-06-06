@@ -106,7 +106,7 @@ void MenuInicio::on_botonRegistrar_clicked()
         else{
             ofstream archivo(ruta + usu.toStdString() + ".txt");
             //Se guardan el nombre de usuario y la contraseña
-            archivo << usu.toStdString()<<"\n" << pass.toStdString() << "\@n";
+            archivo << usu.toStdString()<<"\n" << pass.toStdString() << "\n";
             archivo.close();
 
             //Ventana emergente que notifica que el registro fue exitoso

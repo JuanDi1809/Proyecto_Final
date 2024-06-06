@@ -79,3 +79,8 @@ void Enemigo::setTexturas(int nivel){
     }
 }
 
+QTimer *Enemigo::getTimer()
+{
+    return tiempo;
+}
+

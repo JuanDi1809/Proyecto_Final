@@ -62,6 +62,11 @@ void Personaje::aumentarPuntuacion(int cantidad){
     emit cambioPuntuacion(puntuacion);
 }
 
+QTimer *Personaje::getTimer()
+{
+    return tempo;
+}
+
 void Personaje::setVida(){
     vida *= 2;
 }

@@ -1,6 +1,8 @@
 #include "menupausa.h"
 #include "ui_menupausa.h"
 
+extern int nivelActual;
+
 MenuPausa::MenuPausa(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::MenuPausa)
@@ -14,7 +16,6 @@ MenuPausa::MenuPausa(QWidget *parent)
     w->setPixmap(fondoPausa);
     w->setScaledContents(true); //Ajusta el tamaño de la imagen con el QLabel
     w->lower(); //Pasa la imagen al fondo
-
 }
 
 MenuPausa::~MenuPausa()
@@ -26,7 +27,15 @@ MenuPausa::~MenuPausa()
 
 void MenuPausa::on_botonReanudar_clicked()
 {
+    if(nivelActual == 1){
+        emit reanudar(1000);
+    }
+    else if(nivelActual == 2){
+        emit reanudar(600);
+    }
+    else{
+        emit reanudar(400);
+    }
     this->close();
-    //aqui va a existir un emit para reanudar el timer de todo lo que este en movimiento en el mapa
 }
 

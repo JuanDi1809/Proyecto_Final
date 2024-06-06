@@ -39,6 +39,7 @@ private slots:
 
 private:
     Ui::MenuJuego *ui;
+    int parametroComando;
 };
 
 #endif // MENUJUEGO_H

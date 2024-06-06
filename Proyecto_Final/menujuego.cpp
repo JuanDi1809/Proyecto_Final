@@ -64,7 +64,7 @@ void MenuJuego::on_botonNuevPartida_clicked()
         datos.push_back("100");
         datos.push_back("1");
 
-        Juego *juego = new Juego;
+        Juego *juego = new Juego();
         this->close();
         juego->show();
     }

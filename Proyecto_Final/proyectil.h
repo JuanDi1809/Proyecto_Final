@@ -13,6 +13,9 @@ public:
     Proyectil(Personaje *personaje, QPointF &direccion); //constructor, se establece la direccion que tomará el proyectil
     //uso de señales y slots
     QPixmap getProyectil();
+
+    QTimer* getTimer();
+
 public slots: //es una funcion que puede ser asigana a una señal
     void colisiones();
     void actualizarImagen(const QString &direccion);
@@ -21,6 +24,7 @@ private:
     QPointF direccion;
     qreal velocidad;
     Personaje *personaje;
+    QTimer *tiempo;
 
     //texturas proyectil
     QPixmap proy;

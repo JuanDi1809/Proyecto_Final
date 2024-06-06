@@ -22,7 +22,7 @@ class MenuInicio : public QWidget
     Q_OBJECT
 
 public:
-    MenuInicio(QWidget *parent = nullptr);
+    MenuInicio(QWidget *parent=nullptr);
     ~MenuInicio();
 
     QLabel *w;
@@ -36,6 +36,7 @@ private slots:
 private:
     Ui::MenuInicio *ui;
     bool validPassword = true;
+    int parametroComando;
 };
 
 #include "menujuego.h"

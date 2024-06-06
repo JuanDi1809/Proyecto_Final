@@ -20,6 +20,7 @@ public:
     int getVida() const;
     int getPuntacion() const;
     void aumentarPuntuacion(int cantidad);
+    QTimer *getTimer();
 
     //cambio de vida al pasar de nivel
     void setVida();

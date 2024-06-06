@@ -5,6 +5,7 @@
 #include "enemigo.h"
 #include "seleccionarma.h"
 #include "menupausa.h"
+#include "proyectil.h"
 #include <QVBoxLayout>
 #include <QWidget>
 #include <QVector2D>
@@ -16,10 +17,10 @@
 #include <QGraphicsScene>
 #include <QImage>
 #include <QMessageBox>
-#include <QDebug>
-#include <QObject>
+#include <QGraphicsProxyWidget>
 #include <vector>
 #include <string>
+#include <QDebug>
 
 using namespace std;
 
@@ -44,6 +45,7 @@ public:
     //background
     void setBack(int nivel);
     void cargarEstado(); //Permtira cargar el juego con el nivel de juego, la vida y la puntuacion en donde quedo el usuario
+    void pararTimers();
 private slots:
     void crearEnemigo();
     void actualizarVida(int nuevaVida);
@@ -55,6 +57,7 @@ private slots:
     void iniciarNivel();
 
     void on_botonAjustes_clicked();
+    void reanudarTimers(int);
 
 private:
     Ui::Juego *ui;
@@ -66,6 +69,8 @@ private:
     QGraphicsTextItem *vidaTexto;
     QGraphicsTextItem *nivelJuego;
     QGraphicsTextItem *ptsJugador;
+    MenuPausa *pausa = new MenuPausa;
+    int parametroComando;
 
     //imagen muerte
     QGraphicsPixmapItem *muerte;
@@ -75,7 +80,7 @@ private:
     //int nivel;
     int puntuacionObjetivo;
     QGraphicsTextItem *mensajeNivel;
-    int nivelActual;
+
 
     //metodos encapsulados
     void actualizarNivel(int tiempo);

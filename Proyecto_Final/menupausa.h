@@ -21,6 +21,9 @@ public:
     ~MenuPausa();
     QLabel *w;
 
+signals:
+    void reanudar(int);
+
 private slots:
     void on_botonReanudar_clicked();
 

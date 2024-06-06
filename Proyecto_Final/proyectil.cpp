@@ -12,7 +12,7 @@ Proyectil::Proyectil(Personaje *personaje, QPointF &direccion): direccion(direcc
     //posicion inicial y tamaño
 
     //conectar a slot
-    QTimer *tiempo = new QTimer();
+    tiempo = new QTimer();
     connect(tiempo, SIGNAL(timeout()), this, SLOT(colisiones()));
     tiempo->start(10);
     //cada 50ms tiempo el proyectil será disparado
@@ -20,6 +20,11 @@ Proyectil::Proyectil(Personaje *personaje, QPointF &direccion): direccion(direcc
 
 QPixmap Proyectil::getProyectil(){
     return proy;
+}
+
+QTimer *Proyectil::getTimer()
+{
+    return tiempo;
 }
 
 void Proyectil::colisiones(){
