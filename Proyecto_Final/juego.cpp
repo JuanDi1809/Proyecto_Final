@@ -3,6 +3,7 @@
 
 extern QString usu, pass;
 extern vector<string> datos;
+extern string ruta;
 /*
 La variable nivelActual es declarada como global para saber como parar y reanudar los timers en los cambios de
 nivel y las pausas en el menu del juego
@@ -27,6 +28,10 @@ Juego::Juego(QWidget *parent)
     ui->graphicsView->setSceneRect(0, 0, 1600, 900);
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    //configurando boton de ajustes
+    ui->botonAjustes->setIcon(QIcon(":/Imagenes/videoJuego/IconoAjustes"));
+    ui->botonAjustes->setIconSize(QSize(35, 35));
 
     //imagen muerte
     muerte = new QGraphicsPixmapItem;
@@ -97,8 +102,10 @@ Juego::Juego(QWidget *parent)
     seleccionarma = new SeleccionArma();
     connect(seleccionarma, &SeleccionArma::iniciarNivel, this, &Juego::iniciarNivel);
 
-    //Coneect para reanudar los timers
+    //Coneects para reanudar los timers, cerrar sesion y guardado
     connect(pausa, &MenuPausa::reanudar, this, &Juego::reanudarTimers);
+    connect(pausa, &MenuPausa::cerrar, this, &Juego::cerrarSesion);
+    connect(pausa, &MenuPausa::guardar, this, &Juego::guardado);
 
     cargarEstado();
 
@@ -138,20 +145,12 @@ void Juego::setBack(int nivel){
     QString backgroundPath;
     if(nivel == 1){
         backgroundPath = ":/Imagenes/videoJuego/back.png";
-        //escena->setSceneRect(0,0, 1600, 900);
-        //escena->setBackgroundBrush(QBrush(QImage(":/Imagenes/videoJuego/back.png")));
     }else if(nivel == 2){
         backgroundPath = ":/Imagenes/videoJuego/back2.png";
-        //escena->setSceneRect(0,0, 1600, 900);
-        //escena->setBackgroundBrush(QBrush(QImage(":/Imagenes/videoJuego/back2.png")));
     }else if(nivel == 3){
         backgroundPath = ":/Imagenes/videoJuego/back3.png";
-        //escena->setSceneRect(0,0, 1600, 900);
-        //escena->setBackgroundBrush(QBrush(QImage(":/Imagenes/videoJuego/back3.png")));
     }
-
     escena->setBackgroundBrush(QBrush(QImage(backgroundPath)));
-    //ui->graphicsView->viewport()->update();
 }
 
 void Juego::cargarEstado()
@@ -315,5 +314,35 @@ void Juego::pararTimers()
             proyectil->getTimer()->stop();
         }
     }
+}
+
+void Juego::cerrarSesion()
+{
+    this->close();
+}
+
+void Juego::guardado()
+{
+    ofstream archivo(ruta + usu.toStdString() + ".txt"); //La idea es volver a sobreescribir los datos
+
+    if(archivo.is_open()){
+        archivo << usu.toStdString() << "\n" << pass.toStdString() << "\n" << personaje->getPuntacion() << "\n" << personaje->getVida() << "\n" << nivelActual;
+        archivo.close();
+
+        datos[2] = to_string(personaje->getPuntacion());
+        datos[3] = to_string(personaje->getVida());
+        datos[4] = to_string(nivelActual);
+
+        QMessageBox msgBox;
+        msgBox.setText("La partida se guardo con exito");
+        msgBox.exec();
+    }
+}
+
+
+void Juego::on_botonAjustes_clicked()
+{
+    pararTimers();
+    pausa->show();
 }
 

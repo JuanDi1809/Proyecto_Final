@@ -45,9 +45,9 @@
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="botonSalirJuego">
+     <widget class="QPushButton" name="botonGuardar">
       <property name="text">
-       <string>SALIR DEL JUEGO</string>
+       <string>GUARDAR</string>
       </property>
      </widget>
     </item>

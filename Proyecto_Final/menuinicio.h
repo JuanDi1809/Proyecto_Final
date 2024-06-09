@@ -26,7 +26,6 @@ public:
     ~MenuInicio();
 
     QLabel *w;
-    string ruta = "C:/Users/jtoro/Downloads/";
 
 private slots:
     void on_botonIngresar_clicked();

@@ -44,8 +44,11 @@ public:
 
     //background
     void setBack(int nivel);
-    void cargarEstado(); //Permtira cargar el juego con el nivel de juego, la vida y la puntuacion en donde quedo el usuario
+    //Permtira cargar el juego con el nivel de juego, la vida y la puntuacion en donde quedo el usuario
+    void cargarEstado();
     void pararTimers();
+    void cerrarSesion();
+    void guardado();
 private slots:
     void crearEnemigo();
     void actualizarVida(int nuevaVida);
@@ -58,6 +61,8 @@ private slots:
 
     void reanudarTimers(int);
 
+    void on_botonAjustes_clicked();
+
 private:
     Ui::Juego *ui;
     QGraphicsScene * escena;
@@ -69,7 +74,6 @@ private:
     QGraphicsTextItem *nivelJuego;
     QGraphicsTextItem *ptsJugador;
     MenuPausa *pausa = new MenuPausa;
-    int parametroComando;
 
     //imagen muerte
     QGraphicsPixmapItem *muerte;

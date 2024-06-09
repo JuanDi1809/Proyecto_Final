@@ -23,11 +23,11 @@
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="botonAjustes">
    <property name="geometry">
     <rect>
-     <x>1460</x>
-     <y>20</y>
+     <x>10</x>
+     <y>740</y>
      <width>41</width>
      <height>41</height>
     </rect>

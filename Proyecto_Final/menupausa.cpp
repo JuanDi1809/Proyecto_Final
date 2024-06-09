@@ -39,3 +39,18 @@ void MenuPausa::on_botonReanudar_clicked()
     this->close();
 }
 
+
+void MenuPausa::on_botonCerrarSesion_clicked()
+{
+    MenuInicio *inicio = new MenuInicio();
+    this->close();
+    emit cerrar();
+    inicio->show();
+}
+
+
+void MenuPausa::on_botonGuardar_clicked()
+{
+    emit guardar();
+}
+

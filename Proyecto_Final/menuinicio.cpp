@@ -3,6 +3,7 @@
 
 QString usu, pass;
 vector<string> datos;
+string ruta = "C:/Users/jtoro/Downloads/";
 
 MenuInicio::MenuInicio(QWidget *parent)
     : QWidget(parent)
@@ -63,8 +64,7 @@ void MenuInicio::on_botonIngresar_clicked()
         archivo.close();
 
         if(pass.toStdString() == datos[1] && usu.toStdString() == datos[0] ){
-            this->setVisible(false);
-
+            this->close();
 
             MenuJuego *menu = new MenuJuego();
             menu->show();
@@ -133,3 +133,9 @@ void MenuInicio::on_botonMostar_clicked()
     }
 }
 
+
+void MenuInicio::on_botonSalir_clicked()
+{
+    this->close();
+
+}
