@@ -12,27 +12,19 @@ int nivelActual;
 Juego::Juego(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Juego)
-    , puntuacionObjetivo(100)
+    , puntuacionObjetivo(10)
 {
     ui->setupUi(this);
+    this->resize(1600, 900);
 
     escena = new QGraphicsScene();
     escena->setSceneRect(0,0, 1600, 900);
-    escena->setBackgroundBrush(QBrush(QImage(":/Imagenes/videoJuego/back.png")));
-
-    //Configuarndo y añadiendo el widget de ajustes
-    QPushButton *botonAjustes = new QPushButton();
-    QIcon IconoBotonAjuste(":/Imagenes/videoJuego/IconoAjustes.png");
-    botonAjustes->setIcon(IconoBotonAjuste);
-    botonAjustes->setIconSize(QSize(35,35)); // Ajusta el tamaño del icono según sea necesario
-    QGraphicsProxyWidget *proxy = escena->addWidget(botonAjustes);
-    proxy->setPos(1500,0);
-
-    connect(botonAjustes, &QPushButton::clicked, this, &Juego::on_botonAjustes_clicked);
+    escena->setBackgroundBrush(QBrush(QPixmap(":/Imagenes/videoJuego/back.png")));
 
     //Configurando la escena
     ui->graphicsView->setScene(escena);
     ui->graphicsView->setFixedSize(1600, 900);
+    ui->graphicsView->setSceneRect(0, 0, 1600, 900);
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
@@ -143,17 +135,23 @@ void Juego::verificarPuntuacion(){
 }
 
 void Juego::setBack(int nivel){
+    QString backgroundPath;
     if(nivel == 1){
-        escena->setSceneRect(0,0, 1600, 900);
-        escena->setBackgroundBrush(QBrush(QImage(":/Imagenes/videoJuego/back.png")));
+        backgroundPath = ":/Imagenes/videoJuego/back.png";
+        //escena->setSceneRect(0,0, 1600, 900);
+        //escena->setBackgroundBrush(QBrush(QImage(":/Imagenes/videoJuego/back.png")));
     }else if(nivel == 2){
-        escena->setSceneRect(0,0, 1600, 900);
-        escena->setBackgroundBrush(QBrush(QImage(":/Imagenes/videoJuego/back2.png")));
+        backgroundPath = ":/Imagenes/videoJuego/back2.png";
+        //escena->setSceneRect(0,0, 1600, 900);
+        //escena->setBackgroundBrush(QBrush(QImage(":/Imagenes/videoJuego/back2.png")));
     }else if(nivel == 3){
-        escena->setSceneRect(0,0, 1600, 900);
-        escena->setBackgroundBrush(QBrush(QImage(":/Imagenes/videoJuego/back3.png")));
+        backgroundPath = ":/Imagenes/videoJuego/back3.png";
+        //escena->setSceneRect(0,0, 1600, 900);
+        //escena->setBackgroundBrush(QBrush(QImage(":/Imagenes/videoJuego/back3.png")));
     }
 
+    escena->setBackgroundBrush(QBrush(QImage(backgroundPath)));
+    //ui->graphicsView->viewport()->update();
 }
 
 void Juego::cargarEstado()
@@ -195,28 +193,6 @@ void Juego::cargarEstado()
     }
 }
 
-void Juego::pararTimers()
-{
-    personaje->getTimer()->stop(); //Paro el timer del personaje principal
-    enemigoTiempo->stop(); //Para el timer de la creacion de enemigos
-
-    //Para el timer para cada enemigo en la escena
-    for (auto item : escena->items()){
-        Enemigo *enemigo = dynamic_cast<Enemigo*>(item);
-        if(enemigo){
-            enemigo->getTimer()->stop();
-        }
-    }
-
-    //Para timer para los proyectiles en la escena
-    for (auto item : escena->items()){
-        Proyectil *proyectil = dynamic_cast<Proyectil*>(item);
-        if(proyectil){
-            proyectil->getTimer()->stop();
-        }
-    }
-}
-
 void Juego::actualizarPuntuacion(int nuevaPts){
     ptsJugador->setPlainText(QString("Puntaje: %1").arg(nuevaPts));
     verificarPuntuacion();
@@ -236,7 +212,8 @@ void Juego::mostrarImagenMuerte(){
 
 void Juego::mostrarSeleccionArma(){
     //con esto detenemos la generacion de enemigos
-    pararTimers();
+    enemigoTiempo->stop();
+    personaje->getTimer()->stop();
     limpiarNivel();
 
     //para actualizar la vida y mostrar la nueva
@@ -263,16 +240,13 @@ void Juego::iniciarNivel(){
 
 void Juego::actualizarNivel(int time){
 
-    if(nivelActual == 1){
-        enemigoTiempo->start(time);
-    }
-    else{
-        //cambio de imagenes y otros metodos....
-        reanudarTimers(time);
-    }
+    enemigoTiempo->start(time);
+    personaje->getTimer()->start();
+
 }
 
 void Juego::limpiarNivel(){
+
     for (auto item : escena->items()) {
         Enemigo *enemigo = dynamic_cast<Enemigo*>(item);
         if (enemigo) {
@@ -300,13 +274,6 @@ void Juego::crearEnemigo(){
     escena->addItem(enemigo);
 }
 
-void Juego::on_botonAjustes_clicked()
-{
-    pararTimers();
-    pausa->show();
-}
-
-
 void Juego::reanudarTimers(int time){
     personaje->getTimer()->start(); //Reaunda el timer del personaje principal
     enemigoTiempo->start(time); //Reanuda el timer de la creacion de enemigos
@@ -324,6 +291,28 @@ void Juego::reanudarTimers(int time){
         Proyectil *proyectil = dynamic_cast<Proyectil*>(item);
         if(proyectil){
             proyectil->getTimer()->start();
+        }
+    }
+}
+
+void Juego::pararTimers()
+{
+    personaje->getTimer()->stop(); //Paro el timer del personaje principal
+    enemigoTiempo->stop(); //Para el timer de la creacion de enemigos
+
+    //Para el timer para cada enemigo en la escena
+    for (auto item : escena->items()){
+        Enemigo *enemigo = dynamic_cast<Enemigo*>(item);
+        if(enemigo){
+            enemigo->getTimer()->stop();
+        }
+    }
+
+    //Para timer para los proyectiles en la escena
+    for (auto item : escena->items()){
+        Proyectil *proyectil = dynamic_cast<Proyectil*>(item);
+        if(proyectil){
+            proyectil->getTimer()->stop();
         }
     }
 }

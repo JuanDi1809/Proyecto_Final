@@ -73,7 +73,7 @@ void Enemigo::setTexturas(int nivel){
         QPixmap scaled_enemigo = generico.scaled(70, 70);
         setPixmap(scaled_enemigo);
     }else if(nivel == 3){
-        generico.load(":/Imagenes/videoJuego/enemigo3.png");
+        generico.load(":/Imagenes/videoJuego/enemigo2.png");
         QPixmap scaled_enemigo = generico.scaled(70, 70);
         setPixmap(scaled_enemigo);
     }

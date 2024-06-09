@@ -56,7 +56,6 @@ private slots:
     void mostrarSeleccionArma();
     void iniciarNivel();
 
-    void on_botonAjustes_clicked();
     void reanudarTimers(int);
 
 private:
@@ -85,6 +84,7 @@ private:
     //metodos encapsulados
     void actualizarNivel(int tiempo);
     void limpiarNivel();
+    void eliminarItem(QGraphicsPixmapItem*);
 };
 
 #endif // JUEGO_H
