@@ -32,11 +32,11 @@ Enemigo::Enemigo(int nivel, Personaje *objetivo) : QGraphicsPixmapItem(), objeti
     if(nivel == 2){
         tiempoDisparo = new QTimer(this);
         connect(tiempoDisparo, &QTimer::timeout, this, &Enemigo::disparaProyectil);
-        tiempoDisparo->start(5000); //dispara cada 2 segundos
+        tiempoDisparo->start(5000); //dispara cada 5 segundos
     }else if(nivel == 3){
         tiempoDisparo = new QTimer(this);
         connect(tiempoDisparo, &QTimer::timeout, this, &Enemigo::disparaProyectil);
-        tiempoDisparo->start(8000); //dispara cada 2 segundos
+        tiempoDisparo->start(8000); //dispara cada 8 segundos
     }
 }
 
@@ -103,5 +103,10 @@ void Enemigo::setTexturas(int nivel){
 QTimer *Enemigo::getTimer()
 {
     return tiempo;
+}
+
+QTimer *Enemigo::getTimerProy()
+{
+    return tiempoDisparo;
 }
 

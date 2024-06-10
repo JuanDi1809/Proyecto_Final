@@ -280,6 +280,7 @@ void Juego::actualizarNivel(int time){
 
 void Juego::limpiarNivel(){
 
+    ///Elimino los enemigos, pryectiles del personaje y los enemigos al pasar de nivel
     for (auto item : escena->items()) {
         Enemigo *enemigo = dynamic_cast<Enemigo*>(item);
         if (enemigo) {
@@ -292,6 +293,13 @@ void Juego::limpiarNivel(){
         Proyectil *proyectil = dynamic_cast<Proyectil*>(item);
         if(proyectil){
             escena->removeItem(proyectil);
+        }
+    }
+
+    for (auto item : escena->items()){
+        ProyectilEnemigo *proy = dynamic_cast<ProyectilEnemigo*>(item);
+        if(proy){
+            escena->removeItem(proy);
         }
     }
 }
@@ -316,6 +324,12 @@ void Juego::reanudarTimers(int time){
         Enemigo *enemigo = dynamic_cast<Enemigo*>(item);
         if(enemigo){
             enemigo->getTimer()->start();
+            if(nivelActual == 2){
+                enemigo->getTimerProy()->start(5000);
+            }
+            else{
+                enemigo->getTimerProy()->start(8000);
+            }
         }
     }
 
@@ -324,6 +338,23 @@ void Juego::reanudarTimers(int time){
         Proyectil *proyectil = dynamic_cast<Proyectil*>(item);
         if(proyectil){
             proyectil->getTimer()->start();
+        }
+    }
+
+
+    //Para timer de los poderes del personaje
+    for (auto item : escena->items()){
+        Orbital *orbital = dynamic_cast<Orbital*>(item);
+        if(orbital){
+            orbital->getTimer()->start();
+        }
+    }
+
+    //Para timer de los poderes de los enemigos
+    for (auto item : escena->items()){
+        ProyectilEnemigo *proy = dynamic_cast<ProyectilEnemigo*>(item);
+        if(proy){
+            proy->getTimer()->start();
         }
     }
 }
@@ -338,6 +369,7 @@ void Juego::pararTimers()
         Enemigo *enemigo = dynamic_cast<Enemigo*>(item);
         if(enemigo){
             enemigo->getTimer()->stop();
+            enemigo->getTimerProy()->stop();
         }
     }
 
@@ -346,6 +378,22 @@ void Juego::pararTimers()
         Proyectil *proyectil = dynamic_cast<Proyectil*>(item);
         if(proyectil){
             proyectil->getTimer()->stop();
+        }
+    }
+
+    //Para timer de los poderes del personaje
+    for (auto item : escena->items()){
+        Orbital *orbital = dynamic_cast<Orbital*>(item);
+        if(orbital){
+            orbital->getTimer()->stop();
+        }
+    }
+
+    //Para timer de los poderes de los enemigos
+    for (auto item : escena->items()){
+        ProyectilEnemigo *proy = dynamic_cast<ProyectilEnemigo*>(item);
+        if(proy){
+            proy->getTimer()->stop();
         }
     }
 }

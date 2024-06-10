@@ -30,9 +30,14 @@ ProyectilEnemigo::ProyectilEnemigo(QPointF posInicial, QPointF posobj, QObject *
     setPixmap(scaled);
 
     //slot
-    QTimer *tiempoProy = new QTimer(this);
+    tiempoProy = new QTimer(this);
     connect(tiempoProy, &QTimer::timeout, this, &ProyectilEnemigo::mover);
     tiempoProy->start(10);
+}
+
+QTimer *ProyectilEnemigo::getTimer()
+{
+    return tiempoProy;
 }
 
 void ProyectilEnemigo::mover(){

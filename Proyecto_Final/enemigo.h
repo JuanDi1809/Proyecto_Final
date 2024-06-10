@@ -17,6 +17,8 @@ public:
 
     //Getter par el timer del enemigo
     QTimer* getTimer();
+    //Geeter para el timer de generacion de proyectiles Enenmigos
+    QTimer *getTimerProy();
 
 
 signals:

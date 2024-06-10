@@ -8,6 +8,8 @@
 #include "proyectil.h"
 #include "pantallafin.h"
 #include "casa.h"
+#include "orbital.h"
+#include "proyectilenemigo.h"
 
 #include <QVBoxLayout>
 #include <QWidget>
@@ -71,8 +73,8 @@ private slots:
 
 private:
     Ui::Juego *ui;
-    QGraphicsScene * escena;
-    Personaje * personaje;
+    QGraphicsScene *escena;
+    Personaje *personaje;
     SeleccionArma *seleccionarma;
     PantallaFin *pantallafinal;
     QTimer *tiempo;
