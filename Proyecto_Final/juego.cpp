@@ -13,7 +13,7 @@ int nivelActual;
 Juego::Juego(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Juego)
-    , puntuacionObjetivo(10)
+    , puntuacionObjetivo(1)
 {
     ui->setupUi(this);
     this->resize(1600, 900);
@@ -32,6 +32,16 @@ Juego::Juego(QWidget *parent)
     //configurando boton de ajustes
     ui->botonAjustes->setIcon(QIcon(":/Imagenes/videoJuego/IconoAjustes"));
     ui->botonAjustes->setIconSize(QSize(35, 35));
+
+    //configuracion de musica de fondo
+    backsound = new QMediaPlayer(this);
+    audioOut = new QAudioOutput(this);
+    backsound->setAudioOutput(audioOut);
+    backsound->setSource(QUrl("qrc:/efectos/sonidos/background.mp3"));
+    backsound->setLoops(QMediaPlayer::Infinite);
+    audioOut->setVolume(0.4);
+    backsound->play();
+
 
     //imagen muerte
     muerte = new QGraphicsPixmapItem;
@@ -96,6 +106,8 @@ Juego::Juego(QWidget *parent)
     connect(enemigoTiempo, &QTimer::timeout, this, &Juego::crearEnemigo);
 
     connect(personaje, &Personaje::muerte, this, &Juego::mostrarImagenMuerte);
+    actualizarNivel(1000);
+
 
     //seleccion de arma
     //el evento que muestra los nuevos niveles es cuando se presiona el boton
@@ -108,7 +120,6 @@ Juego::Juego(QWidget *parent)
     connect(pausa, &MenuPausa::guardar, this, &Juego::guardado);
 
     cargarEstado();
-
 }
 
 Juego::~Juego()
@@ -124,20 +135,25 @@ void Juego::establecerNivel(int nivel){
 void Juego::verificarPuntuacion(){
     if (personaje->getPuntacion() >= puntuacionObjetivo) {
         nivelActual++;
-        puntuacionObjetivo *= 2;
+        puntuacionObjetivo *= 5;
         nivelJuego->setPlainText(QString("Nivel: %1").arg(nivelActual));
 
-        mensajeNivel->setPlainText(QString("Has pasado al nivel %1").arg(nivelActual));
+        //mensajeNivel->setPlainText(QString("Has pasado al nivel %1").arg(nivelActual));
         mensajeNivel->setVisible(true);
 
         //temporizador para ocultar mensaje luego de 2 segundos
-        QTimer::singleShot(3000, [this](){
-            mensajeNivel->setVisible(false);
-        });
+        //QTimer::singleShot(3000, [this](){
+        //    mensajeNivel->setVisible(false);
+        //});
 
-        //ventana para la seleccion de arma
-        mostrarSeleccionArma();
-
+        if(personaje->getPuntacion() == 25){
+            this->close();
+            backsound->stop();
+            mostrarPantallaFinal();
+        }else{
+            //ventana para la seleccion de arma
+            mostrarSeleccionArma();
+        }
     }
 }
 
@@ -151,6 +167,18 @@ void Juego::setBack(int nivel){
         backgroundPath = ":/Imagenes/videoJuego/back3.png";
     }
     escena->setBackgroundBrush(QBrush(QImage(backgroundPath)));
+}
+
+void Juego::agregarCasas()
+{
+    Casa *casa1 = new Casa(200, 200);
+    escena->addItem(casa1);
+    Casa *casa2 = new Casa(1200, 200);
+    escena->addItem(casa2);
+    Casa *casa3 = new Casa(200, 600);
+    escena->addItem(casa3);
+    Casa *casa4 = new Casa(1200, 600);
+    escena->addItem(casa4);
 }
 
 void Juego::cargarEstado()
@@ -168,7 +196,7 @@ void Juego::cargarEstado()
         setBack(stoi(datos[4]));
         personaje->setVida(vida.toInt());
         personaje->setPuntuacion(puntuacion.toInt());
-        actualizarNivel(800);
+        actualizarNivel(1000);
     }
     else{
         if(nivelActual == 2){
@@ -177,7 +205,6 @@ void Juego::cargarEstado()
         else{
             actualizarNivel(400);
         }
-
         QString puntuacion = QString::fromUtf8(datos[2]);
         QString vida = QString::fromUtf8(datos[3]);
 
@@ -212,7 +239,6 @@ void Juego::mostrarImagenMuerte(){
 void Juego::mostrarSeleccionArma(){
     //con esto detenemos la generacion de enemigos
     enemigoTiempo->stop();
-    personaje->getTimer()->stop();
     limpiarNivel();
 
     //para actualizar la vida y mostrar la nueva
@@ -225,23 +251,31 @@ void Juego::mostrarSeleccionArma(){
 
 }
 
+void Juego::mostrarPantallaFinal()
+{
+    escena->removeItem(personaje);
+    pantallafinal = new PantallaFin();
+    pantallafinal->show();
+}
+
 void Juego::iniciarNivel(){
     if(nivelActual == 2){
         seleccionarma->hide();
         actualizarNivel(600);
         setBack(nivelActual);
+        personaje->iniciarOrbital();
     }else if(nivelActual == 3){
         seleccionarma->hide();
         actualizarNivel(400);
         setBack(nivelActual);
+        personaje->iniciarOrbital();
+        agregarCasas();
     }
 }
 
 void Juego::actualizarNivel(int time){
 
     enemigoTiempo->start(time);
-    personaje->getTimer()->start();
-
 }
 
 void Juego::limpiarNivel(){
@@ -274,7 +308,7 @@ void Juego::crearEnemigo(){
 }
 
 void Juego::reanudarTimers(int time){
-    personaje->getTimer()->start(); //Reaunda el timer del personaje principal
+    personaje->getTimer()->start(26); //Reaunda el timer del personaje principal
     enemigoTiempo->start(time); //Reanuda el timer de la creacion de enemigos
 
     //Reaunda el timer de los enemigos en la escena

@@ -2,6 +2,7 @@
 #define MENUJUEGO_H
 
 #include "menuinicio.h"
+#include "juego.h"
 
 #include <QWidget>
 #include <QObject>
@@ -13,7 +14,6 @@
 #include <fstream>
 #include <string>
 #include <QDebug>
-#include "juego.h"
 
 using namespace std;
 

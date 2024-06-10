@@ -31,6 +31,7 @@ private slots:
     void on_botonIngresar_clicked();
     void on_botonRegistrar_clicked();
     void on_botonMostar_clicked();
+    void on_botonSalir_clicked();
 
 private:
     Ui::MenuInicio *ui;

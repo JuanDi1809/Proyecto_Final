@@ -1,12 +1,27 @@
 #include "personaje.h"
 #include "Enemigo.h"
 #include "proyectil.h"
+#include "orbital.h"
 #include <QGraphicsScene>
 #include <QDebug>
 #include <QKeyEvent>
 
 Personaje::Personaje() : vida(100), puntuacion(0){
     ataqueImg.load(":/Imagenes/videoJuego/ataque.png");
+
+    //configuracion de sonidos
+    media = new QMediaPlayer(this);
+    mediaOut = new QAudioOutput(this);
+    mediaOut->setVolume(0.5);
+    media->setAudioOutput(mediaOut);
+    media->setSource(QUrl("qrc:/efectos/sonidos/hurt.wav"));
+
+    //para reproduccion simultanea
+    mediaDis = new QMediaPlayer(this);
+    mediaDisOut = new QAudioOutput(this);
+    mediaDisOut->setVolume(0.5);
+    mediaDis->setAudioOutput(mediaDisOut);
+    mediaDis->setSource(QUrl("qrc:/efectos/sonidos/disparar.wav"));
 
     //slot para frecuencia de actualizacion de movimiento
     tempo = new QTimer(this);
@@ -29,6 +44,7 @@ Personaje::Personaje() : vida(100), puntuacion(0){
 void Personaje::reducirVida(int cantidad){
     vida -= cantidad;
     emit vidaCambiada(vida);
+    media->play();
     if(vida <= 0){
         emit muerte(); //se envía la señal de que personaje murio
         scene()->removeItem(this);
@@ -68,7 +84,7 @@ QTimer *Personaje::getTimer()
 }
 
 void Personaje::setVida(){
-    vida *= 2;
+    vida += 10;
 }
 
 void Personaje::setVida(int _vida)
@@ -79,6 +95,41 @@ void Personaje::setVida(int _vida)
 void Personaje::setPuntuacion(int _puntuacion)
 {
     puntuacion = _puntuacion;
+}
+
+void Personaje::iniciarOrbital()
+{
+    orbital = new Orbital(this);
+    scene()->addItem(orbital);
+}
+
+void Personaje::colisionesCasas()
+{
+    QList<QGraphicsItem*> itemsCol = collidingItems();
+    for(QGraphicsItem * item : itemsCol){
+        if(typeid(*item) == typeid(Casa)){
+            Casa *casa = dynamic_cast<Casa*>(item);
+            if(casa){
+                //hay rebotes simples, se invierte movimiento
+                //modificamos la posicon en x e y y luego actualizamos la posicion
+                if(teclas.contains(Qt::Key_Left)){
+                    setX(pos().x() + 20);
+                    setPos(x() + 20, y());
+
+                } else if (teclas.contains(Qt::Key_Right)) {
+                    setX(pos().x() - 20);
+                    setPos(x() - 20, y());
+                }
+                if (teclas.contains(Qt::Key_Up)) {
+                    setY(pos().y() + 20);
+                    setPos(x(), y() + 20);
+                } else if (teclas.contains(Qt::Key_Down)) {
+                    setY(pos().y() - 20);
+                    setPos(x(), y() - 20);
+                }
+            }
+        }
+    }
 }
 
 void Personaje::keyPressEvent(QKeyEvent *event)
@@ -154,6 +205,10 @@ QString Personaje::direccionApuntado(){
 }
 
 void Personaje::disparar(){
+    if(mediaDis->isPlaying()){
+        mediaDis->stop();
+    }
+    mediaDis->play();
     Proyectil *proyectil = new Proyectil(this, direccion);
     //se pasa la direccion donde apunta jugador para determinar que imagen se pone al proyectil
     proyectil->actualizarImagen(direccionActual);
@@ -207,6 +262,6 @@ void Personaje::actualizarPosicion(){
     if (movimientoX != 0 || movimientoY != 0) {
         setPos(limiteX, limiteY);
     }
+    //manejar colisiones con casas
+    colisionesCasas();
 }
-
-

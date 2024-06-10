@@ -38,7 +38,7 @@ void Proyectil::colisiones(){
                 //la puntuacion se maneja en este metodo
                 enemigo->recibirImpacto();
                 //scene()->removeItem(this);
-                personaje->aumentarPuntuacion(5); //cambiar este metodo
+                personaje->aumentarPuntuacion(1); //cambiar este metodo
                 delete this;
                 return; //necesario para las lineas siguientes
             }

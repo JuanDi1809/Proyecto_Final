@@ -6,6 +6,9 @@
 #include "seleccionarma.h"
 #include "menupausa.h"
 #include "proyectil.h"
+#include "pantallafin.h"
+#include "casa.h"
+
 #include <QVBoxLayout>
 #include <QWidget>
 #include <QVector2D>
@@ -17,10 +20,10 @@
 #include <QGraphicsScene>
 #include <QImage>
 #include <QMessageBox>
-#include <QGraphicsProxyWidget>
 #include <vector>
 #include <string>
-#include <QDebug>
+#include <QMediaPlayer>
+#include <QAudioOutput>
 
 using namespace std;
 
@@ -44,6 +47,9 @@ public:
 
     //background
     void setBack(int nivel);
+
+    void agregarCasas();
+
     //Permtira cargar el juego con el nivel de juego, la vida y la puntuacion en donde quedo el usuario
     void cargarEstado();
     void pararTimers();
@@ -57,10 +63,10 @@ private slots:
 
     //subida de nivel (cambio de escena
     void mostrarSeleccionArma();
+    void mostrarPantallaFinal();
     void iniciarNivel();
 
     void reanudarTimers(int);
-
     void on_botonAjustes_clicked();
 
 private:
@@ -68,6 +74,7 @@ private:
     QGraphicsScene * escena;
     Personaje * personaje;
     SeleccionArma *seleccionarma;
+    PantallaFin *pantallafinal;
     QTimer *tiempo;
     QTimer *enemigoTiempo;
     QGraphicsTextItem *vidaTexto;
@@ -88,7 +95,10 @@ private:
     //metodos encapsulados
     void actualizarNivel(int tiempo);
     void limpiarNivel();
-    void eliminarItem(QGraphicsPixmapItem*);
+
+    //musica de fondo
+    QMediaPlayer *backsound;
+    QAudioOutput *audioOut;
 };
 
 #endif // JUEGO_H

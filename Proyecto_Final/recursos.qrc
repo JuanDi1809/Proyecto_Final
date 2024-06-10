@@ -8,8 +8,6 @@
         <file>videoJuego/back3.png</file>
         <file>videoJuego/IconoAjustes.png</file>
         <file>videoJuego/der.png</file>
-        <file>videoJuego/enemigo.png</file>
-        <file>videoJuego/enemigo2.png</file>
         <file>videoJuego/FondoInicial.jpg</file>
         <file>videoJuego/FondoPausa.jpg</file>
         <file>videoJuego/izq.png</file>
@@ -19,5 +17,17 @@
         <file>videoJuego/proy_abj.png</file>
         <file>videoJuego/proy_arr.png</file>
         <file>videoJuego/proy_der.png</file>
+        <file>videoJuego/enemigo.png</file>
+        <file>videoJuego/enemigo2.png</file>
+        <file>videoJuego/enemigo3.png</file>
+        <file>videoJuego/rata.png</file>
+        <file>videoJuego/fin.png</file>
+        <file>videoJuego/fire.png</file>
+        <file>videoJuego/casa.png</file>
+    </qresource>
+    <qresource prefix="/efectos">
+        <file>sonidos/background.mp3</file>
+        <file>sonidos/disparar.wav</file>
+        <file>sonidos/hurt.wav</file>
     </qresource>
 </RCC>

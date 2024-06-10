@@ -1,11 +1,16 @@
 #ifndef PERSONAJE_H
 #define PERSONAJE_H
+
 #include <QGraphicsItem>
 #include <QTimer>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsRectItem>
 #include <QObject>
 #include <QVector2D>
+#include <QMediaPlayer>
+#include <QAudioOutput>
+
+class Orbital;
 
 class Personaje: public QObject, public QGraphicsPixmapItem{
     Q_OBJECT //necesario para usar slots
@@ -26,6 +31,12 @@ public:
     void setVida();
     void setVida(int);
     void setPuntuacion(int);
+
+    //rata
+    void iniciarOrbital();
+
+    //manejar colisiones con casas
+    void colisionesCasas();
 
 
 public slots:
@@ -56,6 +67,7 @@ private:
     bool derecha = false;
     bool izquierda = false;
     QSet<int> teclas;
+    Orbital *orbital;
 
     int vida; //vida inicial
     int puntuacion;
@@ -67,6 +79,13 @@ private:
     QPixmap abj;
     QPixmap arr;
     QPixmap ataqueImg;
+
+    //sonidos
+    QMediaPlayer *media;
+    QAudioOutput *mediaOut;
+    QMediaPlayer *mediaDis;
+    QAudioOutput *mediaDisOut;
+
 
 
 };
