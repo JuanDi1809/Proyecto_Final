@@ -331,7 +331,7 @@ void Juego::reanudarTimers(int time){
             if(nivelActual == 2){
                 enemigo->getTimerProy()->start(5000);
             }
-            else{
+            else if(nivelActual == 3){
                 enemigo->getTimerProy()->start(8000);
             }
         }
@@ -375,7 +375,9 @@ void Juego::pararTimers()
         Enemigo *enemigo = dynamic_cast<Enemigo*>(item);
         if(enemigo){
             enemigo->getTimer()->stop();
-            enemigo->getTimerProy()->stop();
+            if(nivelActual == 2 || nivelActual == 3){
+                enemigo->getTimerProy()->stop();
+            }
         }
     }
 
@@ -408,6 +410,7 @@ void Juego::pararTimers()
 
 void Juego::cerrarSesion()
 {
+    backsound->stop();
     this->close();
 }
 
