@@ -5,7 +5,7 @@ extern vector<string> datos;
 extern QString usu, pass;
 
 MenuJuego::MenuJuego(QWidget *parent)
-    : QWidget(parent)
+    : Menu(parent)
     , ui(new Ui::MenuJuego)
 {
     ui->setupUi(this);

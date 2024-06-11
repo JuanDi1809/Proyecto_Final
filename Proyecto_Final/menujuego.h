@@ -1,18 +1,9 @@
 #ifndef MENUJUEGO_H
 #define MENUJUEGO_H
 
+#include "menu.h"
 #include "menuinicio.h"
 #include "juego.h"
-
-#include <QWidget>
-#include <QObject>
-#include <QWidget>
-#include <QLabel>
-#include <QMessageBox>
-#include <QPixmap>
-#include <Qstring>
-#include <fstream>
-#include <string>
 #include <QDebug>
 
 using namespace std;
@@ -21,16 +12,13 @@ namespace Ui {
 class MenuJuego;
 }
 
-class MenuJuego : public QWidget
+class MenuJuego : public Menu
 {
     Q_OBJECT
 
 public:
     explicit MenuJuego(QWidget *parent = nullptr);
     ~MenuJuego();
-
-    QLabel *w;
-    string ruta = "C:/Users/jtoro/Downloads/";
 
 private slots:
     void on_botonCargarPartida_clicked();

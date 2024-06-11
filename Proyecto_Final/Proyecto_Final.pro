@@ -14,6 +14,7 @@ SOURCES += \
     enemigo.cpp \
     juego.cpp \
     main.cpp \
+    menu.cpp \
     menuinicio.cpp \
     menujuego.cpp \
     menupausa.cpp \
@@ -29,6 +30,7 @@ HEADERS += \
     casa.h \
     enemigo.h \
     juego.h \
+    menu.h \
     menuinicio.h \
     menujuego.h \
     menupausa.h \

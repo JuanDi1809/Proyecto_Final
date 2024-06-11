@@ -1,14 +1,8 @@
 #ifndef MENUINICIO_H
 #define MENUINICIO_H
 
+#include "menu.h"
 #include <vector>
-#include <QWidget>
-#include <QLabel>
-#include <QMessageBox>
-#include <QPixmap>
-#include <Qstring>
-#include <fstream>
-#include <string>
 
 using namespace std;
 
@@ -17,15 +11,13 @@ namespace Ui {
 class MenuInicio;
 }
 
-class MenuInicio : public QWidget
+class MenuInicio : public Menu
 {
     Q_OBJECT
 
 public:
     MenuInicio(QWidget *parent=nullptr);
     ~MenuInicio();
-
-    QLabel *w;
 
 private slots:
     void on_botonIngresar_clicked();

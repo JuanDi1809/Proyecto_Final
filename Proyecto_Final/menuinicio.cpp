@@ -6,7 +6,7 @@ vector<string> datos;
 string ruta = "C:/Users/jtoro/Downloads/";
 
 MenuInicio::MenuInicio(QWidget *parent)
-    : QWidget(parent)
+    : Menu(parent)
     , ui(new Ui::MenuInicio)
 {
     ui->setupUi(this);

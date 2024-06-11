@@ -1,25 +1,19 @@
 #ifndef MENUPAUSA_H
 #define MENUPAUSA_H
 
-#include <QWidget>
-#include <QLabel>
-#include <QMessageBox>
-#include <QPixmap>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
+#include "menu.h"
 
 namespace Ui {
 class MenuPausa;
 }
 
-class MenuPausa : public QWidget
+class MenuPausa : public Menu
 {
     Q_OBJECT
 
 public:
     explicit MenuPausa(QWidget *parent = nullptr);
     ~MenuPausa();
-    QLabel *w;
 
 signals:
     void reanudar(int);
@@ -28,9 +22,7 @@ signals:
 
 private slots:
     void on_botonReanudar_clicked();
-
     void on_botonCerrarSesion_clicked();
-
     void on_botonGuardar_clicked();
 
 private:

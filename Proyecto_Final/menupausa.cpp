@@ -4,7 +4,7 @@
 extern int nivelActual;
 
 MenuPausa::MenuPausa(QWidget *parent)
-    : QWidget(parent)
+    : Menu(parent)
     , ui(new Ui::MenuPausa)
 {
     ui->setupUi(this);

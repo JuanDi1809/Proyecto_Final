@@ -281,6 +281,7 @@ void Juego::actualizarNivel(int time){
 void Juego::limpiarNivel(){
 
     ///Elimino los enemigos, pryectiles del personaje y los enemigos al pasar de nivel
+
     for (auto item : escena->items()) {
         Enemigo *enemigo = dynamic_cast<Enemigo*>(item);
         if (enemigo) {
@@ -296,10 +297,13 @@ void Juego::limpiarNivel(){
         }
     }
 
-    for (auto item : escena->items()){
-        ProyectilEnemigo *proy = dynamic_cast<ProyectilEnemigo*>(item);
-        if(proy){
-            escena->removeItem(proy);
+
+    if(nivelActual == 2 || nivelActual ==3){
+        for (auto item : escena->items()){
+            ProyectilEnemigo *proy = dynamic_cast<ProyectilEnemigo*>(item);
+            if(proy){
+                escena->removeItem(proy);
+            }
         }
     }
 }
