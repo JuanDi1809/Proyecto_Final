@@ -345,21 +345,23 @@ void Juego::reanudarTimers(int time){
         }
     }
 
-
-    //Para timer de los poderes del personaje
-    for (auto item : escena->items()){
-        Orbital *orbital = dynamic_cast<Orbital*>(item);
-        if(orbital){
-            orbital->getTimer()->start();
+    if(nivelActual == 2 || nivelActual == 3){
+        //Reanuda el timer de los poderes del personaje
+        for (auto item : escena->items()){
+            Orbital *orbital = dynamic_cast<Orbital*>(item);
+            if(orbital){
+                orbital->getTimer()->start();
+            }
         }
-    }
 
-    //Para timer de los poderes de los enemigos
-    for (auto item : escena->items()){
-        ProyectilEnemigo *proy = dynamic_cast<ProyectilEnemigo*>(item);
-        if(proy){
-            proy->getTimer()->start();
+        //Reanuda el timer de los poderes de los enemigos
+        for (auto item : escena->items()){
+            ProyectilEnemigo *proy = dynamic_cast<ProyectilEnemigo*>(item);
+            if(proy){
+                proy->getTimer()->start();
+            }
         }
+
     }
 }
 
@@ -385,19 +387,21 @@ void Juego::pararTimers()
         }
     }
 
-    //Para timer de los poderes del personaje
-    for (auto item : escena->items()){
-        Orbital *orbital = dynamic_cast<Orbital*>(item);
-        if(orbital){
-            orbital->getTimer()->stop();
+    if(nivelActual == 2 || nivelActual == 3){
+        //Para timer de los poderes del personaje
+        for (auto item : escena->items()){
+            Orbital *orbital = dynamic_cast<Orbital*>(item);
+            if(orbital){
+                orbital->getTimer()->stop();
+            }
         }
-    }
 
-    //Para timer de los poderes de los enemigos
-    for (auto item : escena->items()){
-        ProyectilEnemigo *proy = dynamic_cast<ProyectilEnemigo*>(item);
-        if(proy){
-            proy->getTimer()->stop();
+        //Para timer de los poderes de los enemigos
+        for (auto item : escena->items()){
+            ProyectilEnemigo *proy = dynamic_cast<ProyectilEnemigo*>(item);
+            if(proy){
+                proy->getTimer()->stop();
+            }
         }
     }
 }
