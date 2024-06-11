@@ -6,13 +6,74 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>611</width>
-    <height>436</height>
+    <width>439</width>
+    <height>431</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <widget class="QPushButton" name="botonPresionado">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>300</y>
+     <width>161</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>SIGUIENTE NIVEL</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>20</y>
+     <width>401</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 700 italic 14pt &quot;Segoe UI&quot;;</string>
+   </property>
+   <property name="text">
+    <string>FELICITACIONES PASASTE EL NIVEL</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>190</y>
+     <width>31</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/Imagenes/videoJuego/rata.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>190</y>
+     <width>261</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 700 italic 10pt &quot;Segoe UI&quot;;</string>
+   </property>
+   <property name="text">
+    <string>¡Has adquirido un nuevo poder!</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

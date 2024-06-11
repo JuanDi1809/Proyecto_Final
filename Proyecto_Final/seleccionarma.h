@@ -4,6 +4,11 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QVBoxLayout>
+#include <QLabel>
+
+namespace Ui {
+class SeleccionArma;
+}
 
 class SeleccionArma : public QWidget {
     Q_OBJECT
@@ -14,12 +19,14 @@ signals:
     //este dará la señal para mostrar la nueva ventana
     void iniciarNivel();
 
+
 private slots:
-    //evento que envía la señal
-    void botonPresionado();
+    void on_botonPresionado_clicked();
 
 private:
+    Ui::SeleccionArma *ui;
     QPushButton *pushButton;
+    QLabel *w;
 };
 
 

@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QGraphicsPixmapItem>
 #include "Personaje.h"
+#include "casa.h"
 
 class Proyectil: public QObject, public QGraphicsPixmapItem{
     //macro

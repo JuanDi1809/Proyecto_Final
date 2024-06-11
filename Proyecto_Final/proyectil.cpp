@@ -44,6 +44,20 @@ void Proyectil::colisiones(){
             }
         }
     }
+
+    //colsion casa
+    QList<QGraphicsItem *> colisiones = collidingItems();
+    for (QGraphicsItem *item : colisiones) {
+        Casa *casa = dynamic_cast<Casa*>(item);
+        if (casa) {
+            casa->recibirImpacto();
+            scene()->removeItem(this);
+            delete this;
+            return;
+        }
+    }
+
+
     //movimiento del proyectil
     setPos(x() + direccion.x() * velocidad, y() + direccion.y() * velocidad);
     //se elimina cuando este en la posicion 0 respectiva a la escena
